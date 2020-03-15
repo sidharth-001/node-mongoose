@@ -13,7 +13,7 @@ const dishSchema = new Schema ({
 	}
 },
 	{
-		timestamp: true
+		timestamps: true
 	});
 
 var Dishes = mongoose.model('Dish',dishSchema); // Mongoose will take plural of 'Dish' and pass its plural as collection name
