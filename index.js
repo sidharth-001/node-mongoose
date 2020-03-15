@@ -12,17 +12,29 @@ connect.then((db) => {
 	})
 		.then((dish) => {
 			console.log(dish);
-			return Dishes.find({}).exec(); //to execute the command
+			return Dishes.findByIdAndUpdate(dish._id,{
+				$set: {description: 'cheese'}
+			},
+				{
+					new: true
+				}).exec(); //to execute the command
 			})
-			.then((dishes) => {
-				console.log(dishes);
-				return Dishes.remove();
-				})
-				.then(() => {
-					return mongoose.connection.close();
+			.then((dish) => {
+				console.log(dish);
+				dish.comments.push({
+					rating: 5,
+					comment: 'The Brief History of Time',
+					author: 'S.W. Hawking'
+				});
+				return dish.save();
 					})
-					.catch((err) => {
+				.then(() => {
+					return Dishes.remove();
+				})
+					.then(() => {
+						return mongoose.connection.close();
+						})
+						.catch((err) => {
 						console.log(err);
-						
-					});
+						});
 				});
